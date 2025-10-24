@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parent Dashboard - Precious Tots Academy</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-red: #D32F2F;
+      --primary-green: #388E3C;
+      --primary-gold: #D4AF37;
+      --light-bg: #f8f9fa;
+      --dark-bg: #121212;
+      --light-text: #212529;
+      --dark-text: #f8f9fa;
+      --glass-light: rgba(255, 255, 255, 0.7);
+      --glass-dark: rgba(30, 30, 30, 0.7);
+    }
+
+    [data-theme="light"] {
+      --bg: var(--light-bg);
+      --text: var(--light-text);
+      --glass: var(--glass-light);
+    }
+
+    [data-theme="dark"] {
+      --bg: var(--dark-bg);
+      --text: var(--dark-text);
+      --glass: var(--glass-dark);
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      transition: background-color 0.5s, color 0.5s;
+      overflow-x: hidden;
+    }
+
+    /* Dashboard Layout */
+    .dashboard-container {
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    .sidebar {
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      height: calc(100vh - 80px);
+      position: fixed;
+      width: 280px;
+      padding: 2rem 1.5rem;
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+    }
+
+    .main-content {
+      margin-left: 280px;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+
+    /* Header */
+    .dashboard-header {
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    /* Cards */
+    .dashboard-card {
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      height: 100%;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      color: var(--primary-green);
+      margin-bottom: 1rem;
+    }
+
+    /* Navigation */
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+      color: white;
+    }
+
+    .nav-link i {
+      font-size: 1.2rem;
+    }
+
+    /* Stats */
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-green);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Activity Feed */
+    .activity-item {
+      padding: 1rem;
+      border-left: 3px solid var(--primary-green);
+      background: rgba(56, 142, 60, 0.05);
+      margin-bottom: 1rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .activity-time {
+      font-size: 0.875rem;
+      color: var(--text);
+      opacity: 0.7;
+    }
+
+    /* Progress */
+    .progress {
+      height: 8px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background: linear-gradient(90deg, var(--primary-green), var(--primary-gold));
+    }
+
+    /* Quick Actions */
+    .quick-action {
+      background: var(--glass);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      transition: all 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .quick-action:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+      color: white;
+    }
+
+    .quick-action:hover .action-icon {
+      color: white;
+    }
+
+    .action-icon {
+      font-size: 2rem;
+      color: var(--primary-green);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Calendar */
+    .calendar-day {
+      text-align: center;
+      padding: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .calendar-day:hover {
+      background: rgba(56, 142, 60, 0.1);
+    }
+
+    .calendar-day.event {
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+      color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        z-index: 1001;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+
+    /* Welcome Banner */
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+      color: white;
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+    }
+
+    /* Badges */
+    .badge {
+      background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <!-- Dashboard Header -->
+  <header class="dashboard-header">
+    <div class="d-flex align-items-center gap-3">
+      <button class="menu-toggle" id="menuToggle">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="d-flex align-items-center">
+        <div class="logo-icon me-2">PTA</div>
+        <span class="fw-bold">Precious Tots Academy</span>
+      </div>
+    </div>
+    
+    <div class="d-flex align-items-center gap-3">
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+          <i class="bi bi-bell"></i>
+          <span class="badge bg-danger">3</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><h6 class="dropdown-header">Notifications</h6></li>
+          <li><a class="dropdown-item" href="#">New photo uploaded</a></li>
+          <li><a class="dropdown-item" href="#">Payment reminder</a></li>
+          <li><a class="dropdown-item" href="#">Parent-teacher meeting</a></li>
+        </ul>
+      </div>
+      
+      <div class="dropdown">
+        <button class="btn dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+          <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+            <i class="bi bi-person"></i>
+          </div>
+          <span>Parent User</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Layout -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <div class="mb-4">
+        <h5 class="fw-bold mb-3">Dashboard</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">
+              <i class="bi bi-house"></i>
+              Overview
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-person"></i>
+              My Children
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-calendar"></i>
+              Schedule
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-cash-coin"></i>
+              Payments
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-images"></i>
+              Gallery
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-chat"></i>
+              Messages
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-file-text"></i>
+              Reports
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-gear"></i>
+              Settings
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mt-4">
+        <h6 class="fw-bold mb-3">My Children</h6>
+        <div class="child-item d-flex align-items-center gap-2 p-2 rounded mb-2" style="background: rgba(56, 142, 60, 0.1);">
+          <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px;">
+            <i class="bi bi-person"></i>
+          </div>
+          <div>
+            <div class="fw-bold">Emma Johnson</div>
+            <small class="text-muted">Nursery • Age 3</small>
+          </div>
+        </div>
+        <div class="child-item d-flex align-items-center gap-2 p-2 rounded">
+          <div class="bg-success rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px;">
+            <i class="bi bi-person"></i>
+          </div>
+          <div>
+            <div class="fw-bold">Noah Johnson</div>
+            <small class="text-muted">Pre-K • Age 4</small>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+      <!-- Welcome Banner -->
+      <div class="welcome-banner">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h2 class="fw-bold">Welcome back, Sarah! 👋</h2>
+            <p class="mb-0">Here's what's happening with your children today at Precious Tots Academy</p>
+          </div>
+          <div class="col-md-4 text-end">
+            <div class="bg-white text-dark rounded p-3 d-inline-block">
+              <div class="fw-bold">Today's Date</div>
+              <div id="currentDate" class="fs-5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="dashboard-card text-center">
+            <i class="bi bi-calendar-check card-icon"></i>
+            <div class="stat-number">12</div>
+            <div>Days Present</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="dashboard-card text-center">
+            <i class="bi bi-journal-text card-icon"></i>
+            <div class="stat-number">8</div>
+            <div>Activities Completed</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="dashboard-card text-center">
+            <i class="bi bi-chat-dots card-icon"></i>
+            <div class="stat-number">3</div>
+            <div>New Messages</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="dashboard-card text-center">
+            <i class="bi bi-camera card-icon"></i>
+            <div class="stat-number">15</div>
+            <div>New Photos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Left Column -->
+        <div class="col-lg-8">
+          <!-- Quick Actions -->
+          <div class="dashboard-card mb-4">
+            <h5 class="fw-bold mb-3">Quick Actions</h5>
+            <div class="row g-3">
+              <div class="col-md-3">
+                <div class="quick-action">
+                  <i class="bi bi-calendar-plus action-icon"></i>
+                  <div>Schedule Visit</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="quick-action">
+                  <i class="bi bi-cash-coin action-icon"></i>
+                  <div>Make Payment</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="quick-action">
+                  <i class="bi bi-chat action-icon"></i>
+                  <div>Message Teacher</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="quick-action">
+                  <i class="bi bi-download action-icon"></i>
+                  <div>Download Report</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="dashboard-card mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold mb-0">Recent Activity</h5>
+              <a href="#" class="auth-link">View All</a>
+            </div>
+            <div class="activity-feed">
+              <div class="activity-item">
+                <div class="fw-bold">Art Class Completed</div>
+                <p class="mb-1">Emma created a beautiful painting in today's art class</p>
+                <div class="activity-time">Today, 10:30 AM</div>
+              </div>
+              <div class="activity-item">
+                <div class="fw-bold">New Photos Uploaded</div>
+                <p class="mb-1">15 new photos from outdoor playtime</p>
+                <div class="activity-time">Yesterday, 3:15 PM</div>
+              </div>
+              <div class="activity-item">
+                <div class="fw-bold">Payment Received</div>
+                <p class="mb-1">Monthly tuition payment confirmed</p>
+                <div class="activity-time">2 days ago</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Report -->
+          <div class="dashboard-card">
+            <h5 class="fw-bold mb-3">Development Progress</h5>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-2">
+                <span>Social Skills</span>
+                <span>85%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" style="width: 85%"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-2">
+                <span>Motor Skills</span>
+                <span>78%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" style="width: 78%"></div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-2">
+                <span>Language Development</span>
+                <span>92%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" style="width: 92%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-4">
+          <!-- Upcoming Events -->
+          <div class="dashboard-card mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold mb-0">Upcoming Events</h5>
+              <a href="#" class="auth-link">View Calendar</a>
+            </div>
+            <div class="event-list">
+              <div class="d-flex align-items-center gap-3 mb-3 p-2 rounded" style="background: rgba(56, 142, 60, 0.1);">
+                <div class="text-center">
+                  <div class="fw-bold text-primary">15</div>
+                  <small>MAR</small>
+                </div>
+                <div>
+                  <div class="fw-bold">Parent-Teacher Meeting</div>
+                  <small>10:00 AM - 11:00 AM</small>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-3 mb-3 p-2 rounded">
+                <div class="text-center">
+                  <div class="fw-bold text-primary">20</div>
+                  <small>MAR</small>
+                </div>
+                <div>
+                  <div class="fw-bold">Spring Festival</div>
+                  <small>9:00 AM - 12:00 PM</small>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-3 p-2 rounded">
+                <div class="text-center">
+                  <div class="fw-bold text-primary">25</div>
+                  <small>MAR</small>
+                </div>
+                <div>
+                  <div class="fw-bold">Field Trip</div>
+                  <small>8:00 AM - 3:00 PM</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Photo Gallery -->
+          <div class="dashboard-card mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold mb-0">Recent Photos</h5>
+              <a href="#" class="auth-link">View All</a>
+            </div>
+            <div class="row g-2">
+              <div class="col-4">
+                <div class="bg-light rounded" style="height: 80px; background: linear-gradient(135deg, #667eea, #764ba2);"></div>
+              </div>
+              <div class="col-4">
+                <div class="bg-light rounded" style="height: 80px; background: linear-gradient(135deg, #f093fb, #f5576c);"></div>
+              </div>
+              <div class="col-4">
+                <div class="bg-light rounded" style="height: 80px; background: linear-gradient(135deg, #4facfe, #00f2fe);"></div>
+              </div>
+              <div class="col-4">
+                <div class="bg-light rounded" style="height: 80px; background: linear-gradient(135deg, #43e97b, #38f9d7);"></div>
+              </div>
+              <div class="col-4">
+                <div class="bg-light rounded" style="height: 80px; background: linear-gradient(135deg, #fa709a, #fee140);"></div>
+              </div>
+              <div class="col-4">
+                <div class="bg-light rounded" style="height: 80px; background: linear-gradient(135deg, #30cfd0, #330867);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Announcements -->
+          <div class="dashboard-card">
+            <h5 class="fw-bold mb-3">Announcements</h5>
+            <div class="alert alert-warning">
+              <div class="fw-bold">Weather Alert</div>
+              <small>School will close early tomorrow due to expected severe weather</small>
+            </div>
+            <div class="alert alert-info">
+              <div class="fw-bold">New Program</div>
+              <small>Introducing our new Music & Movement program starting next month</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Set current date
+    const currentDate = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('currentDate').textContent = currentDate.toLocaleDateString('en-US', options);
+
+    // Mobile menu toggle
+    document.getElementById('menuToggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    // Theme toggle (you can reuse your existing theme logic)
+    const toggleBtn = document.getElementById('themeToggle');
+    if (toggleBtn) {
+      const icon = toggleBtn.querySelector('i');
+      const root = document.body;
+      const savedTheme = localStorage.getItem('theme');
+
+      if (savedTheme) root.dataset.theme = savedTheme;
+
+      const setIcon = () => {
+        icon.className = root.dataset.theme === 'light' ? 'bi-moon' : 'bi-sun';
+      };
+      setIcon();
+
+      toggleBtn.addEventListener('click', () => {
+        const current = root.dataset.theme;
+        const next = current === 'light' ? 'dark' : 'light';
+        root.dataset.theme = next;
+        localStorage.setItem('theme', next);
+        setIcon();
+      });
+    }
+
+    // Sample data updates (in real app, this would come from API)
+    setInterval(() => {
+      // Simulate live updates
+      const messagesBadge = document.querySelector('.badge');
+      if (messagesBadge && Math.random() > 0.8) {
+        const current = parseInt(messagesBadge.textContent);
+        messagesBadge.textContent = current + 1;
+      }
+    }, 10000);
+  </script>
+</body>
+</html>

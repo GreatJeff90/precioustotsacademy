@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Profile - Precious Tots Academy</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  
+  <!-- QR Code Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-red: #D32F2F;
+      --primary-green: #388E3C;
+      --primary-gold: #D4AF37;
+      --light-bg: #f8f9fa;
+      --dark-bg: #121212;
+      --light-text: #212529;
+      --dark-text: #f8f9fa;
+      --glass-light: rgba(255, 255, 255, 0.7);
+      --glass-dark: rgba(30, 30, 30, 0.7);
+    }
+
+    [data-theme="light"] {
+      --bg: var(--light-bg);
+      --text: var(--light-text);
+      --glass: var(--glass-light);
+    }
+
+    [data-theme="dark"] {
+      --bg: var(--dark-bg);
+      --text: var(--dark-text);
+      --glass: var(--glass-dark);
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      transition: background-color 0.5s, color 0.5s;
+      overflow-x: hidden;
+    }
+
+    /* Student Profile Header */
+    .profile-header {
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+      color: white;
+      padding: 2rem 0;
+    }
+
+    .profile-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Profile Card */
+    .profile-card {
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .student-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* QR Code Section */
+    .qr-section {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    #qrcode {
+      margin: 1rem auto;
+    }
+
+    /* Info Cards */
+    .info-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--primary-green);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: between;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .info-label {
+      font-weight: 600;
+      min-width: 150px;
+      color: var(--text);
+    }
+
+    .info-value {
+      flex: 1;
+      color: var(--text);
+    }
+
+    /* Status Badges */
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .status-present {
+      background: #E8F5E8;
+      color: var(--primary-green);
+    }
+
+    .status-absent {
+      background: #FFEBEE;
+      color: var(--primary-red);
+    }
+
+    .status-late {
+      background: #FFF3E0;
+      color: #FF9800;
+    }
+
+    /* Protected Content */
+    .protected-content {
+      position: relative;
+    }
+
+    .protected-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      z-index: 10;
+    }
+
+    .login-prompt {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    /* Login Form */
+    .login-form {
+      background: var(--glass);
+      border-radius: 15px;
+      padding: 2rem;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 10px;
+      font-weight: 600;
+      width: 100%;
+      transition: all 0.3s;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Print Styles */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      
+      .profile-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+      
+      body {
+        background: white;
+        color: black;
+      }
+
+      .protected-overlay {
+        display: none !important;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .profile-container {
+        padding: 1rem;
+      }
+      
+      .student-photo {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .info-item {
+        flex-direction: column;
+      }
+      
+      .info-label {
+        min-width: auto;
+        margin-bottom: 0.25rem;
+      }
+    }
+
+    /* Security Notice */
+    .security-notice {
+      background: rgba(255, 152, 0, 0.1);
+      border: 1px solid rgba(255, 152, 0, 0.3);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    /* Action Buttons */
+    .btn-profile {
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-profile:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Parent Info Bar */
+    .parent-info {
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+      color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <!-- Security Notice -->
+  <div class="security-notice no-print">
+    <i class="bi bi-shield-check"></i>
+    <strong>Secure Student Profile</strong> - Sensitive information is protected and requires parent login.
+  </div>
+
+  <!-- Parent Info Bar (Shows when logged in) -->
+  <div class="parent-info" id="parentInfo">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col">
+          <i class="bi bi-person-check"></i>
+          <strong>Logged in as:</strong> <span id="parentName">Sarah Johnson</span> 
+          | <strong>Relationship:</strong> <span id="parentRelationship">Mother</span>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-sm btn-light" onclick="logout()">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student Profile Header -->
+  <header class="profile-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="display-5 fw-bold">Student Profile</h1>
+          <p class="lead mb-0">Precious Tots Academy - Secure Student Information</p>
+        </div>
+        <div class="col-md-4 text-end no-print">
+          <button class="btn btn-light me-2" onclick="toggleTheme()">
+            <i class="bi bi-palette"></i> Theme
+          </button>
+          <button class="btn btn-light" onclick="window.print()">
+            <i class="bi bi-printer"></i> Print
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Prompt (Shows when not logged in) -->
+  <div class="profile-container no-print" id="loginPrompt">
+    <div class="login-prompt">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h3><i class="bi bi-lock"></i> Parent Access Required</h3>
+          <p class="mb-0">Please log in to view your child's complete profile including health information, emergency contacts, and detailed activities.</p>
+        </div>
+        <div class="col-md-4 text-end">
+          <button class="btn btn-login" data-bs-toggle="modal" data-bs-target="#loginModal">
+            <i class="bi bi-person-circle me-2"></i> Login as Parent
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Content -->
+  <div class="profile-container">
+    <div class="row">
+      <!-- Left Column - Student Info -->
+      <div class="col-lg-8">
+        <!-- Basic Information (Always Visible) -->
+        <div class="profile-card">
+          <div class="row align-items-center">
+            <div class="col-md-4 text-center">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" 
+                   alt="Student Photo" class="student-photo mb-3">
+              <div id="qrcode" class="mb-3"></div>
+              <small class="text-muted">Scan QR code for quick access</small>
+            </div>
+            <div class="col-md-8">
+              <h2 class="fw-bold" id="studentName">Emma Johnson</h2>
+              <div class="row mt-3">
+                <div class="col-sm-6">
+                  <div class="info-item">
+                    <span class="info-label">Student ID:</span>
+                    <span class="info-value" id="studentId">PTA-2024-001</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Date of Birth:</span>
+                    <span class="info-value" id="studentDob">March 15, 2020</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Age:</span>
+                    <span class="info-value" id="studentAge">4 years</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="info-item">
+                    <span class="info-label">Program:</span>
+                    <span class="info-value" id="studentProgram">Pre-Kindergarten</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Classroom:</span>
+                    <span class="info-value" id="studentClassroom">Sunflower Room</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Teacher:</span>
+                    <span class="info-value" id="studentTeacher">Ms. Sarah Johnson</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Current Status & Schedule (Always Visible) -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="profile-card">
+              <div class="card-title">
+                <i class="bi bi-calendar-check"></i>
+                Today's Status
+              </div>
+              <div class="info-item">
+                <span class="info-label">Attendance:</span>
+                <span class="info-value">
+                  <span class="status-badge status-present" id="attendanceStatus">Present</span>
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Check-in Time:</span>
+                <span class="info-value" id="checkinTime">8:15 AM</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Expected Pick-up:</span>
+                <span class="info-value" id="pickupTime">3:00 PM</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="profile-card">
+              <div class="card-title">
+                <i class="bi bi-clock"></i>
+                Daily Schedule
+              </div>
+              <div class="info-item">
+                <span class="info-label">8:00 - 9:00</span>
+                <span class="info-value">Arrival & Free Play</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">9:00 - 10:00</span>
+                <span class="info-value">Circle Time & Learning</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">10:00 - 11:00</span>
+                <span class="info-value">Outdoor Activities</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">11:00 - 12:00</span>
+                <span class="info-value">Lunch & Rest</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">12:00 - 2:00</span>
+                <span class="info-value">Creative Arts</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">2:00 - 3:00</span>
+                <span class="info-value">Story Time & Departure</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Health Information (Protected) -->
+        <div class="profile-card protected-content">
+          <div class="protected-overlay" id="healthOverlay">
+            <i class="bi bi-lock-fill" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <h4>Health Information Protected</h4>
+            <p>Login as parent to view medical details, allergies, and health records</p>
+            <button class="btn btn-login mt-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+              <i class="bi bi-person-circle me-2"></i> Parent Login
+            </button>
+          </div>
+          <div class="card-title">
+            <i class="bi bi-heart-pulse"></i>
+            Health Information
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="info-item">
+                <span class="info-label">Allergies:</span>
+                <span class="info-value" id="allergies">Peanuts, Dairy</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Medical Conditions:</span>
+                <span class="info-value" id="medicalConditions">None</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-item">
+                <span class="info-label">Physician:</span>
+                <span class="info-value" id="physician">Dr. Michael Chen</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Physician Phone:</span>
+                <span class="info-value" id="physicianPhone">(555) 123-4567</span>
+              </div>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Medications:</span>
+            <span class="info-value" id="medications">None currently</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Special Instructions:</span>
+            <span class="info-value" id="specialInstructions">Use EpiPen for severe allergic reactions</span>
+          </div>
+        </div>
+
+        <!-- Recent Activities (Protected) -->
+        <div class="profile-card protected-content">
+          <div class="protected-overlay" id="activitiesOverlay">
+            <i class="bi bi-lock-fill" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <h4>Activity Details Protected</h4>
+            <p>Login as parent to view detailed activity reports and progress tracking</p>
+            <button class="btn btn-login mt-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+              <i class="bi bi-person-circle me-2"></i> Parent Login
+            </button>
+          </div>
+          <div class="card-title">
+            <i class="bi bi-activity"></i>
+            Recent Activities & Progress
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-date">March 20, 2024</div>
+              <div class="fw-bold">Art Project Completed</div>
+              <p>Created a beautiful spring painting using watercolors</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">March 18, 2024</div>
+              <div class="fw-bold">New Milestone</div>
+              <p>Successfully counted to 20 independently</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">March 15, 2024</div>
+              <div class="fw-bold">Field Trip</div>
+              <p>Visited the local fire station with classmates</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Emergency & Contacts (Protected) -->
+      <div class="col-lg-4">
+        <!-- Emergency Contacts (Protected) -->
+        <div class="profile-card protected-content">
+          <div class="protected-overlay" id="contactsOverlay">
+            <i class="bi bi-lock-fill" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <h4>Contact Information Protected</h4>
+            <p>Login as parent to view emergency contacts and authorized pick-up list</p>
+            <button class="btn btn-login mt-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+              <i class="bi bi-person-circle me-2"></i> Parent Login
+            </button>
+          </div>
+          <div class="card-title">
+            <i class="bi bi-telephone"></i>
+            Emergency Contacts
+          </div>
+          
+          <div class="contact-card">
+            <h6>Primary Contact</h6>
+            <div class="info-item">
+              <span class="info-label">Name:</span>
+              <span class="info-value" id="contact1Name">Sarah Johnson</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Relationship:</span>
+              <span class="info-value" id="contact1Relation">Mother</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Phone:</span>
+              <span class="info-value" id="contact1Phone">(555) 987-6543</span>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <h6>Secondary Contact</h6>
+            <div class="info-item">
+              <span class="info-label">Name:</span>
+              <span class="info-value" id="contact2Name">David Johnson</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Relationship:</span>
+              <span class="info-value" id="contact2Relation">Father</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Phone:</span>
+              <span class="info-value" id="contact2Phone">(555) 987-6544</span>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <h6>Emergency Contact</h6>
+            <div class="info-item">
+              <span class="info-label">Name:</span>
+              <span class="info-value" id="contact3Name">Grandma Mary</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Relationship:</span>
+              <span class="info-value" id="contact3Relation">Grandmother</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Phone:</span>
+              <span class="info-value" id="contact3Phone">(555) 123-7890</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Authorized Pick-up (Protected) -->
+        <div class="profile-card protected-content">
+          <div class="protected-overlay" id="pickupOverlay">
+            <i class="bi bi-lock-fill" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <h4>Pick-up Authorization Protected</h4>
+            <p>Login as parent to view authorized pick-up list</p>
+            <button class="btn btn-login mt-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+              <i class="bi bi-person-circle me-2"></i> Parent Login
+            </button>
+          </div>
+          <div class="card-title">
+            <i class="bi bi-person-check"></i>
+            Authorized for Pick-up
+          </div>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <i class="bi bi-check-circle text-success me-2"></i>
+              Sarah Johnson (Mother)
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-check-circle text-success me-2"></i>
+              David Johnson (Father)
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-check-circle text-success me-2"></i>
+              Grandma Mary
+            </li>
+            <li class="mb-2">
+              <i class="bi bi-check-circle text-success me-2"></i>
+              Aunt Jessica
+            </li>
+          </ul>
+        </div>
+
+        <!-- Quick Actions (Visible to all) -->
+        <div class="profile-card no-print">
+          <div class="card-title">
+            <i class="bi bi-lightning"></i>
+            Quick Actions
+          </div>
+          <div class="d-grid gap-2">
+            <button class="btn btn-profile" data-bs-toggle="modal" data-bs-target="#loginModal">
+              <i class="bi bi-capsule"></i> Medical Information
+            </button>
+            <button class="btn btn-profile" data-bs-toggle="modal" data-bs-target="#loginModal">
+              <i class="bi bi-calendar-plus"></i> Schedule Meeting
+            </button>
+            <button class="btn btn-profile" data-bs-toggle="modal" data-bs-target="#loginModal">
+              <i class="bi bi-envelope"></i> Message Teacher
+            </button>
+            <button class="btn btn-profile" onclick="generateIDCard()">
+              <i class="bi bi-card-text"></i> Generate ID Card
+            </button>
+          </div>
+        </div>
+
+        <!-- Security Information -->
+        <div class="profile-card">
+          <div class="card-title">
+            <i class="bi bi-shield-lock"></i>
+            Security Notes
+          </div>
+          <div class="alert alert-warning">
+            <small>
+              <i class="bi bi-exclamation-triangle"></i>
+              <strong>Important:</strong> Sensitive information is protected. 
+              Only authorized parents can access health records and contact details.
+              Last updated: <span id="lastUpdated">Today, 9:30 AM</span>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content login-form">
+        <div class="modal-header border-0">
+          <h5 class="modal-title">Parent Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-center mb-4">Access your child's complete profile</p>
+          <form id="parentLoginForm">
+            <div class="mb-3">
+              <label class="form-label">Parent Email</label>
+              <input type="email" class="form-control" id="parentEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" id="parentPassword" placeholder="Enter your password" required>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="rememberMe">
+              <label class="form-check-label" for="rememberMe">Remember me</label>
+            </div>
+            <button type="submit" class="btn btn-login">Login</button>
+          </form>
+          <div class="text-center mt-3">
+            <a href="#" class="text-muted">Forgot password?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ID Card Modal -->
+  <div class="modal fade" id="idCardModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Student ID Card</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center">
+          <div id="idCardContent" style="border: 2px solid #333; padding: 20px; background: white; color: black;">
+            <!-- ID Card content will be generated here -->
+          </div>
+          <button class="btn btn-primary mt-3" onclick="printIDCard()">
+            <i class="bi bi-printer"></i> Print ID Card
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Student Data (In real application, this would come from a database)
+    const studentData = {
+      id: "PTA-2024-001",
+      name: "Emma Johnson",
+      dob: "2020-03-15",
+      age: "4 years",
+      program: "Pre-Kindergarten",
+      classroom: "Sunflower Room",
+      teacher: "Ms. Sarah Johnson",
+      attendance: "Present",
+      checkinTime: "8:15 AM",
+      pickupTime: "3:00 PM",
+      allergies: "Peanuts, Dairy",
+      medicalConditions: "None",
+      physician: "Dr. Michael Chen",
+      physicianPhone: "(555) 123-4567",
+      medications: "None currently",
+      specialInstructions: "Use EpiPen for severe allergic reactions",
+      contacts: [
+        { name: "Sarah Johnson", relation: "Mother", phone: "(555) 987-6543" },
+        { name: "David Johnson", relation: "Father", phone: "(555) 987-6544" },
+        { name: "Grandma Mary", relation: "Grandmother", phone: "(555) 123-7890" }
+      ],
+      lastUpdated: "Today, 9:30 AM"
+    };
+
+    // Parent login data (for demo purposes)
+    const parentCredentials = [
+      { email: "sarah@email.com", password: "password123", name: "Sarah Johnson", relationship: "Mother" },
+      { email: "david@email.com", password: "password123", name: "David Johnson", relationship: "Father" }
+    ];
+
+    // Check if parent is logged in
+    function isParentLoggedIn() {
+      return localStorage.getItem('parentLoggedIn') === 'true';
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Populate student information
+      document.getElementById('studentName').textContent = studentData.name;
+      document.getElementById('studentId').textContent = studentData.id;
+      document.getElementById('studentDob').textContent = formatDate(studentData.dob);
+      document.getElementById('studentAge').textContent = studentData.age;
+      document.getElementById('studentProgram').textContent = studentData.program;
+      document.getElementById('studentClassroom').textContent = studentData.classroom;
+      document.getElementById('studentTeacher').textContent = studentData.teacher;
+      
+      // Populate status information
+      document.getElementById('attendanceStatus').textContent = studentData.attendance;
+      document.getElementById('checkinTime').textContent = studentData.checkinTime;
+      document.getElementById('pickupTime').textContent = studentData.pickupTime;
+      
+      // Populate health information
+      document.getElementById('allergies').textContent = studentData.allergies;
+      document.getElementById('medicalConditions').textContent = studentData.medicalConditions;
+      document.getElementById('physician').textContent = studentData.physician;
+      document.getElementById('physicianPhone').textContent = studentData.physicianPhone;
+      document.getElementById('medications').textContent = studentData.medications;
+      document.getElementById('specialInstructions').textContent = studentData.specialInstructions;
+      
+      // Populate contact information
+      document.getElementById('contact1Name').textContent = studentData.contacts[0].name;
+      document.getElementById('contact1Relation').textContent = studentData.contacts[0].relation;
+      document.getElementById('contact1Phone').textContent = studentData.contacts[0].phone;
+      
+      document.getElementById('contact2Name').textContent = studentData.contacts[1].name;
+      document.getElementById('contact2Relation').textContent = studentData.contacts[1].relation;
+      document.getElementById('contact2Phone').textContent = studentData.contacts[1].phone;
+      
+      document.getElementById('contact3Name').textContent = studentData.contacts[2].name;
+      document.getElementById('contact3Relation').textContent = studentData.contacts[2].relation;
+      document.getElementById('contact3Phone').textContent = studentData.contacts[2].phone;
+      
+      document.getElementById('lastUpdated').textContent = studentData.lastUpdated;
+      
+      // Generate QR Code
+      generateQRCode();
+      
+      // Check login status
+      checkLoginStatus();
+    });
+
+    // Check and update login status
+    function checkLoginStatus() {
+      if (isParentLoggedIn()) {
+        // Hide login prompts and show protected content
+        document.getElementById('loginPrompt').style.display = 'none';
+        document.getElementById('parentInfo').style.display = 'block';
+        
+        // Hide all protected overlays
+        document.querySelectorAll('.protected-overlay').forEach(overlay => {
+          overlay.style.display = 'none';
+        });
+        
+        // Set parent info
+        const parentData = JSON.parse(localStorage.getItem('parentData'));
+        document.getElementById('parentName').textContent = parentData.name;
+        document.getElementById('parentRelationship').textContent = parentData.relationship;
+      } else {
+        // Show login prompts and hide protected content
+        document.getElementById('loginPrompt').style.display = 'block';
+        document.getElementById('parentInfo').style.display = 'none';
+        
+        // Show all protected overlays
+        document.querySelectorAll('.protected-overlay').forEach(overlay => {
+          overlay.style.display = 'flex';
+        });
+      }
+    }
+
+    // Generate QR Code for the student profile
+    function generateQRCode() {
+      const studentProfileUrl = `${window.location.origin}${window.location.pathname}?student=${studentData.id}`;
+      
+      // Clear previous QR code
+      document.getElementById('qrcode').innerHTML = '';
+      
+      // Generate new QR code
+      QRCode.toCanvas(document.getElementById('qrcode'), studentProfileUrl, {
+        width: 150,
+        height: 150,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      }, function(error) {
+        if (error) console.error(error);
+      });
+    }
+
+    // Format date from YYYY-MM-DD to readable format
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-US', options);
+    }
+
+    // Toggle theme
+    function toggleTheme() {
+      const currentTheme = document.body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.body.setAttribute('data-theme', newTheme);
+      localStorage.setItem('student-profile-theme', newTheme);
+    }
+
+    // Handle parent login
+    document.getElementById('parentLoginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('parentEmail').value;
+      const password = document.getElementById('parentPassword').value;
+      
+      // Simple authentication (in real app, this would be a server call)
+      const parent = parentCredentials.find(p => p.email === email && p.password === password);
+      
+      if (parent) {
+        // Login successful
+        localStorage.setItem('parentLoggedIn', 'true');
+        localStorage.setItem('parentData', JSON.stringify(parent));
+        
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+        modal.hide();
+        
+        // Update UI
+        checkLoginStatus();
+        
+        // Show success message
+        alert(`Welcome back, ${parent.name}!`);
+      } else {
+        // Login failed
+        alert('Invalid email or password. Please try again.');
+      }
+    });
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('parentLoggedIn');
+      localStorage.removeItem('parentData');
+      checkLoginStatus();
+      alert('You have been logged out successfully.');
+    }
+
+    // Generate ID Card
+    function generateIDCard() {
+      const idCardContent = document.getElementById('idCardContent');
+      
+      idCardContent.innerHTML = `
+        <div style="text-align: center; border: 1px solid #ccc; padding: 15px; background: linear-gradient(135deg, #388E3C, #D4AF37); color: white;">
+          <h4 style="margin: 0;">Precious Tots Academy</h4>
+          <p style="margin: 5px 0; font-size: 12px;">Student Identification Card</p>
+        </div>
+        <div style="padding: 15px; text-align: center;">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" 
+               style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #388E3C; margin: 10px 0;">
+          <h5 style="margin: 10px 0;">${studentData.name}</h5>
+          <p style="margin: 5px 0; font-size: 14px;"><strong>ID:</strong> ${studentData.id}</p>
+          <p style="margin: 5px 0; font-size: 14px;"><strong>Program:</strong> ${studentData.program}</p>
+          <p style="margin: 5px 0; font-size: 14px;"><strong>Class:</strong> ${studentData.classroom}</p>
+          <div style="margin: 15px 0;" id="idCardQR"></div>
+          <p style="font-size: 10px; margin: 10px 0;">If found, please contact Precious Tots Academy<br>(555) 123-4567</p>
+        </div>
+      `;
+      
+      // Generate QR code for ID card
+      const idCardQR = document.getElementById('idCardQR');
+      QRCode.toCanvas(idCardQR, `${window.location.origin}${window.location.pathname}?student=${studentData.id}`, {
+        width: 80,
+        height: 80,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      
+      // Show modal
+      const modal = new bootstrap.Modal(document.getElementById('idCardModal'));
+      modal.show();
+    }
+
+    // Print ID Card
+    function printIDCard() {
+      const printContent = document.getElementById('idCardContent').innerHTML;
+      const originalContent = document.body.innerHTML;
+      
+      document.body.innerHTML = printContent;
+      window.print();
+      document.body.innerHTML = originalContent;
+      
+      // Re-initialize the page
+      window.location.reload();
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('student-profile-theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+  </script>
+</body>
+</html>
