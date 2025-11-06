@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Precious Tots Academy</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 style=%22fill:red%22>🧩</text></svg>">
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -89,17 +90,6 @@
     display: inline-block !important;
   }
 
-  /* Dark theme adjustments */
-  [data-theme="dark"] .google-signin-btn {
-    background: #2d3748;
-    color: #e2e8f0;
-    border-color: #4a5568;
-  }
-
-  [data-theme="dark"] .google-signin-btn:hover {
-    background: #4a5568;
-  }
-
   /* Success/Error Messages */
   .alert-message {
     padding: 12px 16px;
@@ -170,17 +160,19 @@
     }
 
     .logo-icon {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--primary-red), var(--primary-gold));
-      border-radius: 50%;
+      width: 50px;
+      height: 60px;
       margin-right: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
     }
 
     .nav-link {
@@ -412,7 +404,7 @@
     .hero p {
       font-size: 1.2rem;
       margin-bottom: 2rem;
-      max-width: 600px;
+      max-width: 100%;
     }
 
     .cta-btn {
@@ -535,6 +527,7 @@
       transition: all 0.3s;
       height: 100%;
       border-top: 4px solid var(--primary-green);
+      cursor: pointer;
     }
 
     .program-card:hover {
@@ -676,6 +669,9 @@
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
+      .hero {
+        padding-top: 150px;
+      }
       .hero h1 {
         font-size: 2.5rem;
       }
@@ -696,7 +692,9 @@
   <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#">
-        <div class="logo-icon">PTA</div>
+        <div class="logo-icon">
+          <img src="img/logoo.png" alt="Precious Tots Academy Logo" width="50" height="60" loading="lazy">
+        </div>
         Precious Tots Academy
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -714,19 +712,21 @@
             <a class="nav-link" href="#programs">Programs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#gallery">Gallery</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="#testimonials">Testimonials</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#contact">Contact</a>
           </li>
-          <li class="nav-item ms-2">
+          <li class="nav-item ms-2 align-items-center">
+            <a href="pupils.html" class="login-btn">
+                <i class="bi bi-images me-1"></i> Gallery
+            </a>
+        </li>
+          <!-- <li class="nav-item ms-2">
             <button class="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
               <i class="bi bi-person-circle me-1"></i> Login
             </button>
-          </li>
+          </li> -->
         </ul>
         <button class="theme-toggle ms-3" id="themeToggle" aria-label="Toggle theme">
           <i class="bi bi-moon"></i>
@@ -894,6 +894,27 @@
   </div>
 </div>
 
+<!-- ===== Program Modal ===== -->
+<div class="modal fade" id="programModal" tabindex="-1" aria-labelledby="programModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content auth-card">
+      <div class="modal-header border-0">
+        <h5 class="modal-title auth-title" id="programModalLabel">Class Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="auth-icon">
+          <i class="bi bi-info-circle"></i>
+        </div>
+        <div id="programModalContent">
+          <!-- Content will be dynamically inserted here -->
+        </div>
+        <button type="button" class="auth-btn mt-3" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
   <!-- ===== Hero Section ===== -->
   <section class="hero" id="home">
@@ -908,10 +929,9 @@
           <div class="hero-content">
             <h1>Where Learning Meets Imagination <i class="bi bi-stars"></i></h1>
             <p>
-              Welcome to Precious Tots Academy — a joyful, creative space where every child's potential shines.  
-              Join us and let curiosity take flight!
+              Welcome to Precious Tots Academy — a joyful, creative space where every child's potential shines.  <br>Join us and let curiosity take flight!
             </p>
-            <button class="cta-btn">Enroll Now</button>
+            <a href="apply.html"><button class="cta-btn">Enroll Now</button></a>
           </div>
         </div>
       </div>
@@ -971,35 +991,83 @@
       <p class="section-subtitle scroll-animate">Nurturing young minds through every stage of growth</p>
       
       <div class="row g-4">
-        <div class="col-md-6 col-lg-3 scroll-animate">
-          <div class="program-card">
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="program-card" data-program="creche">
             <div class="program-icon"><i class="bi bi-balloon-heart"></i></div>
-            <h3>Nursery</h3>
-            <p>Ages 1–2 • Gentle play-based introduction to learning.</p>
+            <h3>Crèche</h3>
+            <p>Early care for our youngest learners with gentle play-based introduction to learning.</p>
             <a href="#" class="program-link">Learn More <i class="bi bi-arrow-right"></i></a>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3 scroll-animate">
-          <div class="program-card">
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="program-card" data-program="reception">
             <div class="program-icon"><i class="bi bi-palette"></i></div>
-            <h3>Pre-K</h3>
-            <p>Ages 3–4 • Exploring creativity, language, and teamwork.</p>
+            <h3>Reception</h3>
+            <p>Foundation for early learning through creative exploration and teamwork.</p>
             <a href="#" class="program-link">Learn More <i class="bi bi-arrow-right"></i></a>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3 scroll-animate">
-          <div class="program-card">
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="program-card" data-program="kg1">
             <div class="program-icon"><i class="bi bi-pencil"></i></div>
-            <h3>Kindergarten</h3>
-            <p>Ages 5–6 • Preparing confident, curious learners for primary school.</p>
+            <h3>KG 1</h3>
+            <p>Building essential skills through structured play and early academics.</p>
             <a href="#" class="program-link">Learn More <i class="bi bi-arrow-right"></i></a>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3 scroll-animate">
-          <div class="program-card">
-            <div class="program-icon"><i class="bi bi-rocket-takeoff"></i></div>
-            <h3>Grade-School</h3>
-            <p>Fun enrichment activities in art, reading, and STEM exploration.</p>
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="program-card" data-program="kg2">
+            <div class="program-icon"><i class="bi bi-book"></i></div>
+            <h3>KG 2</h3>
+            <p>Advanced kindergarten learning preparing children for primary education.</p>
+            <a href="#" class="program-link">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="program-card" data-program="preparatory">
+            <div class="program-icon"><i class="bi bi-gear"></i></div>
+            <h3>Preparatory</h3>
+            <p>Comprehensive preparation for primary school with enhanced curriculum.</p>
+            <a href="#" class="program-link">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="program-card" data-program="grade1">
+            <div class="program-icon"><i class="bi bi-1-circle"></i></div>
+            <h3>Grade 1</h3>
+            <p>First grade curriculum focusing on foundational literacy and numeracy.</p>
+            <a href="#" class="program-link">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="program-card" data-program="grade2">
+            <div class="program-icon"><i class="bi bi-2-circle"></i></div>
+            <h3>Grade 2</h3>
+            <p>Second grade curriculum building on core academic skills.</p>
+            <a href="#" class="program-link">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="program-card" data-program="grade3">
+            <div class="program-icon"><i class="bi bi-3-circle"></i></div>
+            <h3>Grade 3</h3>
+            <p>Third grade curriculum with expanded subject knowledge.</p>
+            <a href="#" class="program-link">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="program-card" data-program="grade4">
+            <div class="program-icon"><i class="bi bi-4-circle"></i></div>
+            <h3>Grade 4</h3>
+            <p>Fourth grade curriculum focusing on independent learning skills.</p>
+            <a href="#" class="program-link">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="program-card" data-program="grade5">
+            <div class="program-icon"><i class="bi bi-5-circle"></i></div>
+            <h3>Grade 5</h3>
+            <p>Fifth grade curriculum preparing students for secondary education.</p>
             <a href="#" class="program-link">Learn More <i class="bi bi-arrow-right"></i></a>
           </div>
         </div>
@@ -1096,6 +1164,9 @@
           </div>
         </div>
       </div>
+      <div class="text-center mt-4">
+        <a href="pupils.html" class="cta-btn">View Full Gallery</a>
+      </div>
     </div>
   </section>
 
@@ -1114,7 +1185,7 @@
             <blockquote class="blockquote">
               <p>"My daughter absolutely loves her teachers! I've seen her confidence grow every week."</p>
             </blockquote>
-            <h4>— Mrs. Adaeze N.</h4>
+            <h4>— Mrs. Edimoh</h4>
           </div>
         </div>
         <div class="col-md-4 scroll-animate">
@@ -1125,7 +1196,7 @@
             <blockquote class="blockquote">
               <p>"Such a joyful, creative atmosphere. The staff truly care about each child's growth."</p>
             </blockquote>
-            <h4>— Mr. Johnson O.</h4>
+            <h4>— Mr. Naphtali Z.</h4>
           </div>
         </div>
         <div class="col-md-4 scroll-animate">
@@ -1163,10 +1234,15 @@
         </div>
         <div class="col-lg-6 scroll-animate">
           <div class="map-container mt-4 mt-lg-0">
-            <i class="bi bi-map map-icon"></i>
-            <h4>Our Location</h4>
-            <p>Visit us at our campus in Uyo</p>
-            <a href="#" class="program-link">Get Directions <i class="bi bi-arrow-right"></i></a>
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.191570515006!2d7.950000!3d4.950000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNMKwNTcnMDAuMCJOIDfCsDU3JzAwLjAiRQ!5e0!3m2!1sen!2sng!4v1620000000000!5m2!1sen!2sng" 
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
           </div>
         </div>
       </div>
@@ -1188,6 +1264,109 @@
 
   <!-- Custom JS -->
   <script>
+  // Program Modal Functionality
+  document.querySelectorAll('.program-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      // Don't trigger if clicking the "Learn More" link
+      if (e.target.tagName === 'A' || e.target.closest('a')) {
+        return;
+      }
+      
+      const program = this.getAttribute('data-program');
+      const programTitle = this.querySelector('h3').textContent;
+      const programDescription = this.querySelector('p').textContent;
+      
+      // Set modal content based on program
+      let modalContent = '';
+      
+      switch(program) {
+        case 'creche':
+          modalContent = `
+            <h4 class="text-center mb-3">Crèche Program</h4>
+            <p>Our crèche program provides gentle, nurturing care for our youngest learners. We focus on creating a warm, secure environment where children can explore and develop at their own pace.</p>
+            <p>Activities are designed to stimulate sensory development and encourage early social interaction in a safe, supervised setting.</p>
+          `;
+          break;
+        case 'reception':
+          modalContent = `
+            <h4 class="text-center mb-3">Reception Program</h4>
+            <p>The reception program introduces structured learning through play-based activities that foster creativity and teamwork.</p>
+            <p>Children develop foundational skills in a supportive environment that encourages curiosity and builds confidence.</p>
+          `;
+          break;
+        case 'kg1':
+          modalContent = `
+            <h4 class="text-center mb-3">KG 1 Program</h4>
+            <p>In KG 1, we focus on building essential early learning skills through a balanced mix of structured activities and guided play.</p>
+            <p>Children begin developing literacy and numeracy foundations while continuing to explore their creativity and social skills.</p>
+          `;
+          break;
+        case 'kg2':
+          modalContent = `
+            <h4 class="text-center mb-3">KG 2 Program</h4>
+            <p>Our KG 2 program prepares children for the transition to primary education with more structured learning experiences.</p>
+            <p>We focus on developing independence, problem-solving skills, and a love for learning that will serve children well in their educational journey.</p>
+          `;
+          break;
+        case 'preparatory':
+          modalContent = `
+            <h4 class="text-center mb-3">Preparatory Program</h4>
+            <p>The preparatory class offers comprehensive preparation for primary school with an enhanced curriculum that challenges and engages young minds.</p>
+            <p>We focus on developing the academic and social skills needed for a successful transition to formal schooling.</p>
+          `;
+          break;
+        case 'grade1':
+          modalContent = `
+            <h4 class="text-center mb-3">Grade 1 Program</h4>
+            <p>First grade at Precious Tots Academy focuses on building strong foundational skills in literacy and numeracy.</p>
+            <p>Our curriculum is designed to make learning engaging and meaningful while supporting each child's individual growth and development.</p>
+          `;
+          break;
+        case 'grade2':
+          modalContent = `
+            <h4 class="text-center mb-3">Grade 2 Program</h4>
+            <p>In second grade, we build upon the core academic skills introduced in first grade while encouraging greater independence in learning.</p>
+            <p>Students continue to develop their reading, writing, and mathematical abilities through hands-on, interactive lessons.</p>
+          `;
+          break;
+        case 'grade3':
+          modalContent = `
+            <h4 class="text-center mb-3">Grade 3 Program</h4>
+            <p>Third grade expands subject knowledge and introduces more complex concepts across the curriculum.</p>
+            <p>We focus on developing critical thinking skills and fostering a deeper understanding of core subjects while maintaining an engaging, supportive learning environment.</p>
+          `;
+          break;
+        case 'grade4':
+          modalContent = `
+            <h4 class="text-center mb-3">Grade 4 Program</h4>
+            <p>Fourth grade emphasizes independent learning skills and personal responsibility in academic work.</p>
+            <p>Students are encouraged to take ownership of their learning while receiving the guidance and support needed to succeed.</p>
+          `;
+          break;
+        case 'grade5':
+          modalContent = `
+            <h4 class="text-center mb-3">Grade 5 Program</h4>
+            <p>Our fifth grade program prepares students for the transition to secondary education with a comprehensive curriculum.</p>
+            <p>We focus on developing the academic skills, study habits, and personal responsibility needed for success in middle school and beyond.</p>
+          `;
+          break;
+        default:
+          modalContent = `
+            <h4 class="text-center mb-3">${programTitle}</h4>
+            <p>${programDescription}</p>
+            <p>Our program focuses on age-appropriate learning activities designed to support each child's development in a nurturing environment.</p>
+          `;
+      }
+      
+      document.getElementById('programModalContent').innerHTML = modalContent;
+      document.getElementById('programModalLabel').textContent = programTitle;
+      
+      // Show the modal
+      const programModal = new bootstrap.Modal(document.getElementById('programModal'));
+      programModal.show();
+    });
+  });
+
   // Firebase Authentication Functions
   function showAlert(message, type = 'error') {
     // Remove existing alerts
@@ -1442,11 +1621,13 @@
   }
 
   // Check if user is already logged in
-  window.firebaseAuth.onAuthStateChanged((user) => {
-    if (user) {
-      updateNavigationForLoggedInUser(user);
-    }
-  });
+  if (window.firebaseAuth) {
+    window.firebaseAuth.onAuthStateChanged((user) => {
+      if (user) {
+        updateNavigationForLoggedInUser(user);
+      }
+    });
+  }
 
   // Clear forms when modals are hidden
   document.querySelectorAll('.modal').forEach(modal => {
@@ -1487,12 +1668,14 @@
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
       const targetId = this.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
-      
-      window.scrollTo({
-        top: targetElement.offsetTop - 80,
-        behavior: 'smooth'
-      });
+      if (targetId.startsWith('#')) {
+        const targetElement = document.querySelector(targetId);
+        
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
     });
   });
 

@@ -47,12 +47,40 @@
       overflow-x: hidden;
     }
 
+    /* Back to Home Link */
+    .back-home {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 100;
+    }
+
+    .back-home a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+
+    .back-home a:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
     /* Enrollment Header */
     .enrollment-header {
       background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
       color: white;
       padding: 3rem 0;
       text-align: center;
+      position: relative;
     }
 
     .enrollment-container {
@@ -197,7 +225,7 @@
     /* Program Cards */
     .program-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1.5rem;
       margin: 2rem 0;
     }
@@ -206,7 +234,7 @@
       background: var(--glass);
       border: 2px solid transparent;
       border-radius: 15px;
-      padding: 2rem;
+      padding: 1.5rem;
       text-align: center;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -223,7 +251,7 @@
     }
 
     .program-icon {
-      font-size: 3rem;
+      font-size: 2.5rem;
       color: var(--primary-green);
       margin-bottom: 1rem;
     }
@@ -335,6 +363,71 @@
       margin-bottom: 1rem;
     }
 
+    /* Footer */
+    .footer {
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+      color: white;
+      padding: 3rem 0 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .footer h5 {
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .social-links a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.875rem;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .enrollment-form {
@@ -361,6 +454,18 @@
 
       .form-navigation button {
         width: 100%;
+      }
+
+      .back-home {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .back-home a {
+        display: inline-flex;
       }
     }
 
@@ -394,8 +499,13 @@
 <body data-theme="light">
   <!-- Enrollment Header -->
   <header class="enrollment-header">
+    <div class="back-home">
+      <a href="index.html">
+        <i class="bi bi-house-door"></i> Back to Home
+      </a>
+    </div>
     <div class="container">
-      <h1 class="display-4 fw-bold mb-3">Enroll Your Child Today! 🌟</h1>
+      <h1 class="display-4 fw-bold mb-3">Enroll Your Child Today!</h1>
       <p class="lead mb-0">Begin your child's educational journey at Precious Tots Academy</p>
     </div>
   </header>
@@ -418,12 +528,6 @@
       </div>
       <div class="step" data-step="3">
         <div class="step-icon">
-          <i class="bi bi-heart"></i>
-        </div>
-        <div class="step-label">Health & Emergency</div>
-      </div>
-      <div class="step" data-step="4">
-        <div class="step-icon">
           <i class="bi bi-check-circle"></i>
         </div>
         <div class="step-label">Review & Submit</div>
@@ -433,7 +537,7 @@
 
   <!-- Enrollment Form -->
   <div class="enrollment-container">
-    <form id="enrollmentForm" class="enrollment-form">
+    <form id="enrollmentForm" class="enrollment-form" action="https://formspree.io/f/mldoqewg" method="POST">
       <!-- Step 1: Child Information -->
       <div class="form-step active" id="step1">
         <div class="section-title">
@@ -464,7 +568,6 @@
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
-                <option value="other">Other</option>
               </select>
             </div>
           </div>
@@ -477,44 +580,59 @@
         </div>
 
         <div class="program-cards">
-          <div class="program-card" data-program="nursery">
+          <div class="program-card" data-program="creche">
             <i class="bi bi-balloon-heart program-icon"></i>
-            <h5>Nursery</h5>
-            <div class="program-age">Ages 1-2 years</div>
-            <p>Gentle play-based introduction to learning</p>
+            <h5>Crèche</h5>
+            <p>Early care for our youngest learners</p>
           </div>
-          <div class="program-card" data-program="prek">
+          <div class="program-card" data-program="reception">
             <i class="bi bi-palette program-icon"></i>
-            <h5>Pre-Kindergarten</h5>
-            <div class="program-age">Ages 3-4 years</div>
-            <p>Exploring creativity, language, and teamwork</p>
+            <h5>Reception</h5>
+            <p>Foundation for early learning</p>
           </div>
-          <div class="program-card" data-program="kindergarten">
+          <div class="program-card" data-program="kg1">
             <i class="bi bi-pencil program-icon"></i>
-            <h5>Kindergarten</h5>
-            <div class="program-age">Ages 5-6 years</div>
-            <p>Preparing confident learners for primary school</p>
+            <h5>KG 1</h5>
+            <p>Building essential skills</p>
+          </div>
+          <div class="program-card" data-program="kg2">
+            <i class="bi bi-book program-icon"></i>
+            <h5>KG 2</h5>
+            <p>Advanced kindergarten learning</p>
+          </div>
+          <div class="program-card" data-program="preparatory">
+            <i class="bi bi-gear program-icon"></i>
+            <h5>Preparatory</h5>
+            <p>Ready for primary education</p>
+          </div>
+          <div class="program-card" data-program="grade1">
+            <i class="bi bi-1-circle program-icon"></i>
+            <h5>Grade 1</h5>
+            <p>First grade curriculum</p>
+          </div>
+          <div class="program-card" data-program="grade2">
+            <i class="bi bi-2-circle program-icon"></i>
+            <h5>Grade 2</h5>
+            <p>Second grade curriculum</p>
+          </div>
+          <div class="program-card" data-program="grade3">
+            <i class="bi bi-3-circle program-icon"></i>
+            <h5>Grade 3</h5>
+            <p>Third grade curriculum</p>
+          </div>
+          <div class="program-card" data-program="grade4">
+            <i class="bi bi-4-circle program-icon"></i>
+            <h5>Grade 4</h5>
+            <p>Fourth grade curriculum</p>
+          </div>
+          <div class="program-card" data-program="grade5">
+            <i class="bi bi-5-circle program-icon"></i>
+            <h5>Grade 5</h5>
+            <p>Fifth grade curriculum</p>
           </div>
         </div>
         <input type="hidden" name="selectedProgram" id="selectedProgram" required>
 
-        <!-- Desired Start Date -->
-        <div class="form-card">
-          <div class="row">
-            <div class="col-md-6">
-              <label class="form-label required">Desired Start Date</label>
-              <input type="date" class="form-control" name="startDate" required min="<?php echo date('Y-m-d'); ?>">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Session Preference</label>
-              <select class="form-select" name="sessionPreference">
-                <option value="full">Full Day (8:00 AM - 3:00 PM)</option>
-                <option value="morning">Morning Session (8:00 AM - 12:00 PM)</option>
-                <option value="afternoon">Afternoon Session (12:00 PM - 3:00 PM)</option>
-              </select>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Step 2: Parent/Guardian Information -->
@@ -606,134 +724,12 @@
               <label class="form-label required">State</label>
               <input type="text" class="form-control" name="state" required>
             </div>
-            <div class="col-md-4 mb-3">
-              <label class="form-label required">ZIP Code</label>
-              <input type="text" class="form-control" name="zipCode" required>
-            </div>
           </div>
         </div>
       </div>
 
-      <!-- Step 3: Health & Emergency Information -->
+      <!-- Step 3: Review & Submit -->
       <div class="form-step" id="step3">
-        <div class="section-title">
-          <i class="bi bi-heart-pulse"></i>
-          Health Information
-        </div>
-
-        <div class="form-card">
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label required">Primary Physician</label>
-              <input type="text" class="form-control" name="primaryPhysician" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label required">Physician Phone</label>
-              <input type="tel" class="form-control" name="physicianPhone" required>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label required">Medical Insurance</label>
-              <input type="text" class="form-control" name="medicalInsurance" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label required">Policy Number</label>
-              <input type="text" class="form-control" name="policyNumber" required>
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Known Allergies</label>
-            <textarea class="form-control" name="allergies" rows="3" placeholder="List any allergies (food, medication, environmental)"></textarea>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Medical Conditions</label>
-            <textarea class="form-control" name="medicalConditions" rows="3" placeholder="List any medical conditions or special needs"></textarea>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Current Medications</label>
-            <textarea class="form-control" name="currentMedications" rows="3" placeholder="List any current medications"></textarea>
-          </div>
-        </div>
-
-        <!-- Emergency Contacts -->
-        <div class="section-title">
-          <i class="bi bi-telephone"></i>
-          Emergency Contacts
-        </div>
-
-        <div class="contact-card">
-          <h6 class="mb-3">Emergency Contact #1</h6>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label required">Full Name</label>
-              <input type="text" class="form-control" name="emergency1Name" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label required">Relationship</label>
-              <input type="text" class="form-control" name="emergency1Relationship" required>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label required">Phone Number</label>
-              <input type="tel" class="form-control" name="emergency1Phone" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Alternate Phone</label>
-              <input type="tel" class="form-control" name="emergency1AltPhone">
-            </div>
-          </div>
-        </div>
-
-        <div class="contact-card">
-          <h6 class="mb-3">Emergency Contact #2</h6>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label required">Full Name</label>
-              <input type="text" class="form-control" name="emergency2Name" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label required">Relationship</label>
-              <input type="text" class="form-control" name="emergency2Relationship" required>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label required">Phone Number</label>
-              <input type="tel" class="form-control" name="emergency2Phone" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Alternate Phone</label>
-              <input type="tel" class="form-control" name="emergency2AltPhone">
-            </div>
-          </div>
-        </div>
-
-        <!-- Authorization -->
-        <div class="form-card">
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="medicalAuthorization" id="medicalAuthorization" required>
-            <label class="form-check-label required" for="medicalAuthorization">
-              I authorize Precious Tots Academy to seek emergency medical treatment for my child if I cannot be reached
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="photoRelease" id="photoRelease">
-            <label class="form-check-label" for="photoRelease">
-              I grant permission for my child's photo to be used in school publications and website
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 4: Review & Submit -->
-      <div class="form-step" id="step4">
         <div class="section-title">
           <i class="bi bi-check-circle"></i>
           Review Your Application
@@ -778,11 +774,60 @@
     </form>
   </div>
 
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <h5>Precious Tots Academy</h5>
+          <p>Nurturing young minds for a brighter future through quality early childhood education.</p>
+          <div class="social-links">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+        <div class="col-md-2 mb-4">
+          <h5>Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="admissions.html">Admissions</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Programs</h5>
+          <ul class="footer-links">
+            <li><a href="#">Crèche</a></li>
+            <li><a href="#">Reception</a></li>
+            <li><a href="#">Kindergarten</a></li>
+            <li><a href="#">Elementary</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h5>Contact Info</h5>
+          <ul class="footer-links">
+            <li><i class="bi bi-geo-alt me-2"></i>123 Education Street, City</li>
+            <li><i class="bi bi-telephone me-2"></i>(123) 456-7890</li>
+            <li><i class="bi bi-envelope me-2"></i>info@precioustots.edu</li>
+            <li><i class="bi bi-clock me-2"></i>Mon - Fri: 7:30 AM - 5:30 PM</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 Precious Tots Academy. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
   <!-- Success Modal -->
   <div class="success-modal" id="successModal">
     <div class="success-content">
       <i class="bi bi-check-circle-fill success-icon"></i>
-      <h3 class="fw-bold mb-3">Application Submitted Successfully! 🎉</h3>
+      <h3 class="fw-bold mb-3">Application Submitted Successfully!</h3>
       <p class="mb-4">Thank you for choosing Precious Tots Academy. We've received your application and will contact you within 2-3 business days to schedule an orientation.</p>
       <button class="btn btn-enrollment" onclick="closeSuccessModal()">
         <i class="bi bi-house me-2"></i>Return to Home
@@ -795,7 +840,7 @@
 
   <script>
     let currentStep = 1;
-    const totalSteps = 4;
+    const totalSteps = 3;
 
     // Program Selection
     document.querySelectorAll('.program-card').forEach(card => {
@@ -911,9 +956,16 @@
 
     function getProgramName(programKey) {
       const programs = {
-        'nursery': 'Nursery (Ages 1-2)',
-        'prek': 'Pre-Kindergarten (Ages 3-4)',
-        'kindergarten': 'Kindergarten (Ages 5-6)'
+        'creche': 'Crèche',
+        'reception': 'Reception',
+        'kg1': 'KG 1',
+        'kg2': 'KG 2',
+        'preparatory': 'Preparatory',
+        'grade1': 'Grade 1',
+        'grade2': 'Grade 2',
+        'grade3': 'Grade 3',
+        'grade4': 'Grade 4',
+        'grade5': 'Grade 5'
       };
       return programs[programKey] || programKey;
     }
@@ -923,29 +975,35 @@
       e.preventDefault();
       
       if (validateStep(currentStep)) {
-        // Here you would typically send the data to your server
-        console.log('Form submitted successfully!');
+        // Submit form to Formspree
+        const form = this;
+        const formData = new FormData(form);
         
-        // Show success modal
-        document.getElementById('successModal').classList.add('show');
-        
-        // In a real application, you would send the data to your backend
-        // const formData = new FormData(this);
-        // fetch('/api/enroll', { method: 'POST', body: formData })
-        //   .then(response => response.json())
-        //   .then(data => {
-        //     document.getElementById('successModal').classList.add('show');
-        //   })
-        //   .catch(error => {
-        //     alert('There was an error submitting your application. Please try again.');
-        //   });
+        fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .then(response => {
+          if (response.ok) {
+            // Show success modal
+            document.getElementById('successModal').classList.add('show');
+          } else {
+            alert('There was an error submitting your application. Please try again.');
+          }
+        })
+        .catch(error => {
+          alert('There was an error submitting your application. Please try again.');
+        });
       }
     });
 
     function closeSuccessModal() {
       document.getElementById('successModal').classList.remove('show');
-      // Redirect to home page or clear form
-      window.location.href = '/'; // Change this to your home page URL
+      // Redirect to home page
+      window.location.href = 'index.html';
     }
 
     // Initialize

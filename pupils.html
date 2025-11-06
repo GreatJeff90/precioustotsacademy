@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Pupils - Precious Tots Academy</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏫</text></svg>">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-red: #D32F2F;
+      --primary-green: #388E3C;
+      --primary-gold: #D4AF37;
+      --light-bg: #f8f9fa;
+      --dark-bg: #121212;
+      --light-text: #212529;
+      --dark-text: #f8f9fa;
+      --glass-light: rgba(255, 255, 255, 0.7);
+      --glass-dark: rgba(30, 30, 30, 0.7);
+    }
+
+    [data-theme="light"] {
+      --bg: var(--light-bg);
+      --text: var(--light-text);
+      --glass: var(--glass-light);
+    }
+
+    [data-theme="dark"] {
+      --bg: var(--dark-bg);
+      --text: var(--dark-text);
+      --glass: var(--glass-dark);
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      transition: background-color 0.5s, color 0.5s;
+      overflow-x: hidden;
+    }
+
+    /* Header & Navigation */
+    .navbar {
+      backdrop-filter: blur(10px);
+      background-color: var(--glass) !important;
+      transition: all 0.3s;
+      padding: 1rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      color: var(--primary-green) !important;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 60px;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .nav-link {
+      color: var(--text) !important;
+      font-weight: 500;
+      margin: 0 0.5rem;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--primary-green) !important;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--primary-green);
+      transition: width 0.3s;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+      color: white;
+      padding: 4rem 0 3rem;
+      text-align: center;
+      margin-top: 76px;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .page-header p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Pupils Gallery */
+    .pupils-gallery {
+      padding: 3rem 0;
+    }
+
+    .pupil-card {
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      margin-bottom: 2rem;
+    }
+
+    .pupil-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .pupil-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-bottom: 3px solid var(--primary-green);
+    }
+
+    .pupil-info {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .pupil-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--primary-green);
+    }
+
+    .pupil-id {
+      color: var(--text);
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    /* Pupil Modal Styles */
+.pupil-modal-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid var(--primary-green);
+  margin: 0 auto 1.5rem;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.pupil-modal-name {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--primary-green);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.pupil-modal-id {
+  text-align: center;
+  color: var(--text);
+  opacity: 0.8;
+  font-size: 1rem;
+}
+
+/* Responsive adjustments for modal image */
+@media (max-width: 768px) {
+  .pupil-modal-image {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .pupil-modal-name {
+    font-size: 1.5rem;
+  }
+}
+
+    /* Footer */
+    footer {
+      background-color: var(--glass);
+      backdrop-filter: blur(10px);
+      padding: 2rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    footer a {
+      color: var(--primary-green);
+      text-decoration: none;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 2rem;
+      }
+      
+      .pupil-modal-image {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .pupil-modal-name {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <!-- ===== Header ===== -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <div class="logo-icon">
+          <img src="img/logoo.png" alt="Precious Tots Academy Logo">
+        </div>
+        Precious Tots Academy
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#programs">Programs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="pupils.html" >Gallery</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#testimonials">Testimonials</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#contact">Contact</a>
+          </li>
+          <li class="nav-item ms-2">
+            <a href="apply.html" class="btn login-btn">
+              <i class="bi bi-person-circle me-1"></i> Apply Now
+            </a>
+          </li>
+        </ul>
+        <button class="theme-toggle ms-3" id="themeToggle" aria-label="Toggle theme">
+          <i class="bi bi-moon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== Page Header ===== -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Our Precious Pupils</h1>
+      <p>Meet the wonderful children who make our academy a joyful place to learn and grow</p>
+    </div>
+  </section>
+
+  <!-- ===== Pupils Gallery ===== -->
+  <section class="pupils-gallery">
+    <div class="container">
+      <!-- Pupils Grid -->
+      <div class="row" id="pupilsGrid">
+        <!-- Pupil cards will be dynamically generated here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="container">
+      <p class="mb-0">
+        © <script>document.write(new Date().getFullYear())</script> Precious Tots Academy. Built by
+        <a href="https://www.linkedin.com/in/great-pam-a908632ab" target="_blank">Great Pam</a>.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Pupil Modal -->
+  <div class="modal fade pupil-modal" id="pupilModal" tabindex="-1" aria-labelledby="pupilModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="pupilModalLabel">Pupil Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="" alt="Pupil Photo" class="pupil-modal-image" id="modalPupilImage">
+          <h3 class="pupil-modal-name" id="modalPupilName"></h3>
+          <p class="pupil-modal-id" id="modalPupilId"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Theme toggle functionality
+    const toggleBtn = document.getElementById('themeToggle');
+    const icon = toggleBtn.querySelector('i');
+    const root = document.body;
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme) root.dataset.theme = savedTheme;
+
+    const setIcon = () => {
+      icon.className = root.dataset.theme === 'light' ? 'bi-moon' : 'bi-sun';
+    };
+    setIcon();
+
+    toggleBtn.addEventListener('click', () => {
+      const current = root.dataset.theme;
+      const next = current === 'light' ? 'dark' : 'light';
+      root.dataset.theme = next;
+      localStorage.setItem('theme', next);
+      setIcon();
+    });
+
+    // Pupils data with local images
+    const pupilsData = [
+      {
+        id: "PTA/2025001",
+        name: "Dike Hilary M.",
+        image: "img/pta_2025001.jpg"
+      },
+      {
+        id: "PTA/2025002",
+        name: "Dike Emmanuella M.",
+        image: "img/pta_2025002.jpg"
+      },
+      {
+        id: "PTA/2025003",
+        name: "Dike Olivia C.",
+        image: "img/pta_2025003.jpg"
+      },
+      {
+        id: "PTA/2025004",
+        name: "Edimoh Ethan E.",
+        image: "img/pta_2025004.jpg"
+      },
+      {
+        id: "PTA/2025005",
+        name: "Anagboso Michael C.",
+        image: "img/pta_2025005.jpg"
+      },
+      {
+        id: "PTA/2025006",
+        name: "Edimoh Eliora E.",
+        image: "img/pta_2025006.jpg"
+      },
+      {
+        id: "PTA/2025007",
+        name: "Udo Destiny S.",
+        image: "img/pta_2025007.jpg"
+      },
+      {
+        id: "PTA/2025008",
+        name: "Alma C.",
+        image: "img/pta_2025008.jpg"
+      },
+      {
+        id: "PTA/2025009",
+        name: "Udo Praise S.",
+        image: "img/pta_2025009.jpg"
+      },
+      {
+        id: "PTA/2025010",
+        name: "Edimoh Eli E.",
+        image: "img/pta_2025010.jpg"
+      },
+      {
+        id: "PTA/2025011",
+        name: "Naphtali Nadia Z.",
+        image: "img/pta_2025011.jpg"
+      }
+    ];
+
+    // Function to generate pupil cards
+    function generatePupilCards(pupils) {
+      const pupilsGrid = document.getElementById('pupilsGrid');
+      pupilsGrid.innerHTML = '';
+      
+      pupils.forEach(pupil => {
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4 col-xl-3';
+        
+        col.innerHTML = `
+          <div class="pupil-card" data-id="${pupil.id}">
+            <img src="${pupil.image}" alt="${pupil.name}" class="pupil-image">
+            <div class="pupil-info">
+              <h4 class="pupil-name">${pupil.name}</h4>
+              <p class="pupil-id">${pupil.id}</p>
+            </div>
+          </div>
+        `;
+        
+        pupilsGrid.appendChild(col);
+      });
+      
+      // Add click event to pupil cards
+      document.querySelectorAll('.pupil-card').forEach(card => {
+        card.addEventListener('click', function() {
+          const pupilId = this.getAttribute('data-id');
+          const pupil = pupilsData.find(p => p.id === pupilId);
+          
+          if (pupil) {
+            openPupilModal(pupil);
+          }
+        });
+      });
+    }
+
+    // Function to open pupil modal
+    function openPupilModal(pupil) {
+      document.getElementById('modalPupilImage').src = pupil.image;
+      document.getElementById('modalPupilName').textContent = pupil.name;
+      document.getElementById('modalPupilId').textContent = pupil.id;
+      
+      const pupilModal = new bootstrap.Modal(document.getElementById('pupilModal'));
+      pupilModal.show();
+    }
+
+    // Initialize the page with all pupils
+    generatePupilCards(pupilsData);
+  </script>
+</body>
+</html>
